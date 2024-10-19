@@ -13,17 +13,25 @@ namespace DataSystemFront.Controllers
         {
             _ITarefa = tarefa;
         }
-        public IActionResult Index()
+        public IActionResult Index(string status)
         {
             try
             {
-               return View(_ITarefa.GetAllTarefasAsync());
+               var tarefas = _ITarefa.GetAllTarefasAsync().AsQueryable();
+                if (!string.IsNullOrEmpty(status))
+                {
+                    Status statusEnum;
+                    if (Status.TryParse(status, out statusEnum))
+                    {
+                        tarefas = tarefas.Where(t => t.status == statusEnum);
+                    }
+                }
+                return View(tarefas.ToList());
             }
             catch
             {
                 return View();
             }
-           
         }
        
         public ActionResult Details(int id)
@@ -46,6 +54,7 @@ namespace DataSystemFront.Controllers
             var model = new TarefaModel();
             model.StatusList = TrazStatusList();
             DateTime data = DateTime.Now;
+            data = data.AddMinutes(10);
             model.DataConclusao = new DateTime(data.Year, data.Month, data.Day, data.Hour, data.Minute, 0);
             return View(model);
         }

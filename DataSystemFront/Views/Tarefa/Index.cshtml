@@ -16,6 +16,16 @@
 {
         <button type="submit" class="btn btn-success">Nova Tarefa</button>
 }
+<form method="get" action="/Tarefa">
+    <label for="status">Filtrar por Status:</label>
+    <select name="status" id="status" onchange="this.form.submit()">
+        <option value="">Selecione</option>
+        <option value="">Todos</option>
+        <option value="Pendente">Pendente</option>
+        <option value="EmProgresso">Em Progresso</option>
+        <option value="Concluido">Concluído</option>
+    </select>
+</form>
 <table class="table">
     <thead>
         <tr>
