@@ -8,6 +8,6 @@ namespace DataSystemFront.Interfaces
         TarefaModel GetTarefaByIdAsync(int id);
         string AddTarefaAsync(TarefaModel tarefa);
         string UpdateTarefaAsync(TarefaModel tarefa, int Id);
-        Task<bool> DeleteTarefaByIDAsync(int id);
+        bool DeleteTarefaByIDAsync(int id);
     }
 }

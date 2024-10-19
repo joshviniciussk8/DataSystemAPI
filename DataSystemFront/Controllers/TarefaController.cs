@@ -60,6 +60,7 @@ namespace DataSystemFront.Controllers
             model.Titulo = collection.Titulo;
             model.Descricao = collection.Descricao;
             model.DataConclusao = collection.DataConclusao;
+
             try
             {
                 string respota = _ITarefa.AddTarefaAsync(collection);
@@ -83,8 +84,10 @@ namespace DataSystemFront.Controllers
         public ActionResult Edit(int id)
         {
             var model = _ITarefa.GetTarefaByIdAsync(id);
-            DateTime data = model.DataConclusao;
-            model.DataConclusao = new DateTime(data.Year, data.Month, data.Day, data.Hour, data.Minute, 0);
+            DateTime dataConclusao = (DateTime)model.DataConclusao;
+            model.DataConclusao = new DateTime(dataConclusao.Year, dataConclusao.Month, dataConclusao.Day, dataConclusao.Hour, dataConclusao.Minute, 0);
+            DateTime dataCriacao = model.DataCriacao;
+            model.DataCriacao = new DateTime(dataCriacao.Year, dataCriacao.Month, dataCriacao.Day, dataCriacao.Hour, dataCriacao.Minute, 0);
             model.StatusList = TrazStatusList();
             return View(model);
         }
@@ -124,11 +127,18 @@ namespace DataSystemFront.Controllers
         {
             try
             {
-                _ITarefa.DeleteTarefaByIDAsync(id);
-                return RedirectToAction(nameof(Index));
+                bool resultado = _ITarefa.DeleteTarefaByIDAsync(id);
+                if (resultado)
+                {
+                    TempData["Mensagem"] = "Tarefa Excluída com sucesso!";
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewBag.MensagemErro = "Opss Algo deu errado";
+                return View();
             }
-            catch
+            catch(Exception ex)
             {
+                ViewBag.MensagemErro = ex;
                 return View();
             }
         }

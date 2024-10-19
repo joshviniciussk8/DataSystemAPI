@@ -29,12 +29,6 @@ namespace DataSystemFront.Repository
                 throw;
             }
         }
-
-        public Task<bool> DeleteTarefaByIDAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<TarefaModel> GetAllTarefasAsync()
         {
             var retorno = new List<TarefaModel>();
@@ -92,27 +86,21 @@ namespace DataSystemFront.Repository
                 throw;
             }
         }
-        public TarefaModel DeletaTarefaAsync(int id)
-        {
-            var tarefaAlterada = new TarefaModel();
-            tarefaAlterada.Id = id;
+        public bool DeleteTarefaByIDAsync(int id)
+        { 
             try
             {
                 using var cliente = new HttpClient();
 
                 var resposta = cliente.DeleteAsync(uprApi + "/DeletaTarefaPorID/" + id);
                 resposta.Wait();
-                if (resposta.Result.IsSuccessStatusCode)
-                {
-                    var retorno = resposta.Result.Content.ReadAsStringAsync();
-                    //alunoAlterado = JsonConvert.DeserializeObject<AlunoModel>(retorno.Result);
-                }
+                return resposta.Result.IsSuccessStatusCode;
             }
             catch
             {
-                throw;
+                return false;
             }
-            return tarefaAlterada;
+           
         }
     }
 }

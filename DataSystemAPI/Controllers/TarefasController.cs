@@ -36,10 +36,9 @@ namespace DataSystemAPI.Controllers
         [Route("NovaTarefas")]
         public async Task<IActionResult> AdicionaTarefa([FromBody] TarefaResponse tarefa)
         {
-            
             DateTime DataCriacao = DateTime.Now;
-            if (tarefa.DataConclusao == null || tarefa.DataConclusao == DateTime.MinValue) return BadRequest("Data de Conclusão é obrigatória!");
-            if (tarefa.DataConclusao.Date < DataCriacao.Date) return BadRequest("Data de Conclusão Não pode ser anterior a data de criação");
+            if (tarefa.DataConclusao != null || tarefa.DataConclusao != DateTime.MinValue) 
+                if (tarefa.DataConclusao < DataCriacao) return BadRequest("Data de Conclusão Não pode ser anterior a data de criação");
             if(tarefa.Titulo.Length>100) return BadRequest("Tarefa não pode ter mais de 100 caracteres!");
             if(String.IsNullOrEmpty(tarefa.Titulo)) return BadRequest("O campo Tarefa é obrigatório");
             if (!Enum.IsDefined(typeof(Status), tarefa.status)) return BadRequest("Status Inválido");
@@ -66,9 +65,9 @@ namespace DataSystemAPI.Controllers
             var TarefaAtual = await _tarefaRepository.GetTarefaByIdAsync(Id);
             if (TarefaAtual == null) return NotFound("Tarefa não Encontrada");
             if (string.IsNullOrEmpty(TarefaAlterada.Titulo)) TarefaAlterada.Titulo = TarefaAtual.Titulo;
-            //if (string.IsNullOrEmpty(TarefaAlterada.Descricao)) TarefaAlterada.Descricao = TarefaAtual.Descricao;
-            if (TarefaAlterada.DataConclusao==null || TarefaAlterada.DataConclusao == DateTime.MinValue) TarefaAlterada.DataConclusao = TarefaAtual.DataConclusao;
-            if(TarefaAlterada.DataConclusao< TarefaAtual.DataCriacao) return BadRequest("Data de Conclusão Não pode ser anterior a data de criação");
+            if (TarefaAlterada.DataConclusao==null || TarefaAlterada.DataConclusao == DateTime.MinValue) 
+                TarefaAlterada.DataConclusao = (DateTime)TarefaAtual.DataConclusao;
+            if(TarefaAlterada.DataConclusao< TarefaAtual.DataCriacao) return BadRequest("Data de Conclusão Não pode ser anterior a data Atual");
             if (TarefaAlterada.status == null) TarefaAlterada.status = TarefaAtual.status;
             if (!Enum.IsDefined(typeof(Status), TarefaAlterada.status)) return BadRequest("Status Inválido");
 
