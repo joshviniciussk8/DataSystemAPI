@@ -1,5 +1,5 @@
-﻿using DataSystemAPI.Models;
-using DataSystemAPI.Repository;
+﻿using DataSystemAPI.Interface;
+using DataSystemAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -9,8 +9,8 @@ namespace DataSystemAPI.Controllers
     [Route("api/[controller]")]
     public class TarefasController : Controller
     {
-        private readonly ITarefaRepository _tarefaRepository;
-        public TarefasController(ITarefaRepository tarefaRepository) 
+        private readonly ITarefaServices _tarefaRepository;
+        public TarefasController(ITarefaServices tarefaRepository) 
         { 
             _tarefaRepository = tarefaRepository;
         }
@@ -39,7 +39,7 @@ namespace DataSystemAPI.Controllers
             
             DateTime DataCriacao = DateTime.Now;
             if (tarefa.DataConclusao == null || tarefa.DataConclusao == DateTime.MinValue) return BadRequest("Data de Conclusão é obrigatória!");
-            if (tarefa.DataConclusao < DataCriacao) return BadRequest("Data de Conclusão Não pode ser anterior a data de criação");
+            if (tarefa.DataConclusao.Date < DataCriacao.Date) return BadRequest("Data de Conclusão Não pode ser anterior a data de criação");
             if(tarefa.Titulo.Length>100) return BadRequest("Tarefa não pode ter mais de 100 caracteres!");
             if(String.IsNullOrEmpty(tarefa.Titulo)) return BadRequest("O campo Tarefa é obrigatório");
             if (!Enum.IsDefined(typeof(Status), tarefa.status)) return BadRequest("Status Inválido");
@@ -66,7 +66,7 @@ namespace DataSystemAPI.Controllers
             var TarefaAtual = await _tarefaRepository.GetTarefaByIdAsync(Id);
             if (TarefaAtual == null) return NotFound("Tarefa não Encontrada");
             if (string.IsNullOrEmpty(TarefaAlterada.Titulo)) TarefaAlterada.Titulo = TarefaAtual.Titulo;
-            if (string.IsNullOrEmpty(TarefaAlterada.Descricao)) TarefaAlterada.Descricao = TarefaAtual.Descricao;
+            //if (string.IsNullOrEmpty(TarefaAlterada.Descricao)) TarefaAlterada.Descricao = TarefaAtual.Descricao;
             if (TarefaAlterada.DataConclusao==null || TarefaAlterada.DataConclusao == DateTime.MinValue) TarefaAlterada.DataConclusao = TarefaAtual.DataConclusao;
             if(TarefaAlterada.DataConclusao< TarefaAtual.DataCriacao) return BadRequest("Data de Conclusão Não pode ser anterior a data de criação");
             if (TarefaAlterada.status == null) TarefaAlterada.status = TarefaAtual.status;

@@ -2,14 +2,15 @@
 using System.Data.SqlClient;
 using Dapper;
 using Microsoft.Extensions.Primitives;
+using DataSystemAPI.Interface;
 
 namespace DataSystemAPI.Repository
 {
-    public class TarefaRepository : ITarefaRepository
+    public class TarefaServices : ITarefaServices
     {
         private readonly IConfiguration _configuration;
         private readonly string connectionString;
-        public TarefaRepository(IConfiguration configuration)
+        public TarefaServices(IConfiguration configuration)
         {
             _configuration = configuration;
             connectionString = _configuration.GetConnectionString("SqlConnection");

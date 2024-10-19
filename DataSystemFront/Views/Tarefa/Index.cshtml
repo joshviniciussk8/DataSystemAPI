@@ -1,0 +1,87 @@
+﻿@model IEnumerable<DataSystemFront.Domain.Models.TarefaModel>
+
+@{
+    ViewData["Title"] = "Tarefas";
+}
+
+@if (TempData["Mensagem"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensagem"]
+    </div>
+}
+<h1>Tarefas</h1>
+
+@using (Html.BeginForm("Create", "Tarefa", FormMethod.Get))
+{
+        <button type="submit" class="btn btn-success">Nova Tarefa</button>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataCriacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataConclusao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCriacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataConclusao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @using (Html.BeginForm("Edit", "Tarefa", FormMethod.Get))
+                {
+                        <input type="hidden" name="Id" value="@item.Id" />
+
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                }
+            </td>
+            <td>
+                    @using (Html.BeginForm("Details", "Tarefa", FormMethod.Get))
+                {
+                        <input type="hidden" name="Id" value="@item.Id" />
+
+                    <button type="submit" class="btn btn-success">Detalhes</button>
+                }
+            </td>
+            <td>
+                    @using (Html.BeginForm("Delete", "Tarefa", FormMethod.Get))
+                {
+                        <input type="hidden" name="Id" value="@item.Id" />
+
+                    <button type="submit" class="btn btn-danger">Deletar</button>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

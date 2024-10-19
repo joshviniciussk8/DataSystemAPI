@@ -1,0 +1,56 @@
+﻿@model DataSystemFront.Domain.Models.TarefaModel
+
+@{
+    ViewData["Title"] = "Nova Tarefa";
+}
+@if (ViewBag.MensagemErro != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.MensagemErro
+    </div>
+}
+<h1>Nova Tarefa</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" maxlength="100" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataConclusao" class="control-label"></label>
+                <input asp-for="DataConclusao" class="form-control" />
+                <span asp-validation-for="DataConclusao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="status">Status do Pedido</label>
+                @Html.DropDownListFor(model => model.status, new SelectList(Model.StatusList, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</br>
+
+<div>
+    @using (Html.BeginForm("Index", "Tarefa", FormMethod.Get))
+    {
+        <button type="submit" class="btn btn-secondary">Voltar</button>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
