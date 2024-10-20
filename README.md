@@ -1,7 +1,7 @@
 # Sistema Web de Gerenciamento de Tarefas
 
 ## Descrição
-Este projeto é um sistema web de gerenciamento de tarefas que se comunica com uma API RESTful para realizar operações CRUD (Criar, Ler, Atualizar, Deletar) de tarefas. A API foi construída utilizando **ASP.NET Core** com **Dapper** ou **Entity Framework Core** para a persistência de dados em um banco de dados **SQL Server**. O front-end da aplicação foi implementado com **ASP.NET MVC**, utilizando Razor views para renderizar as páginas.
+Este projeto é um sistema web de gerenciamento de tarefas que se comunica com uma API RESTful para realizar operações CRUD (Criar, Ler, Atualizar, Deletar) de tarefas. A API foi construída utilizando **ASP.NET Core** com **Dapper** para a persistência de dados em um banco de dados **SQL Server**. O front-end da aplicação foi implementado com **ASP.NET MVC**, utilizando Razor views para renderizar as páginas.
 
 ## Funcionalidades da API
 
