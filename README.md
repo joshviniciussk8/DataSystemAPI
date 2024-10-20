@@ -12,10 +12,10 @@ A API permite as seguintes operações para gerenciar tarefas:
 - **Deletar uma tarefa**.
 
 ## Métodos
-Requisições para a API devem seguir os padrões:
+Requisições para a API:
 | Método | URL | Descrição |
 |---|---|---|
-| `GET` | https://localhost:7138/api/Tarefas/TodasTarefas  | Retorna informações de um ou mais Tarefas. |
+| `GET` | https://localhost:7138/api/Tarefas/TodasTarefas  | Retorna informações de uma ou mais Tarefas. |
 | `GET` | https://localhost:7138/api/Tarefas/TarefaPorID/{id}  | Retorna informações de uma Tarefa pelo ID. |
 | `POST`| https://localhost:7138/api/Tarefas/NovaTarefas | Utilizado para criar uma nova Tarefa através de um objeto Json. |
 | `PUT` | https://localhost:7138/api/Tarefas/AlteraTarefa?Id={id} | Atualiza dados de uma tarefa ou altera sua situação através de um objeto Json e informando o id da tarefa. |
@@ -62,9 +62,10 @@ Cada tarefa possui os seguintes campos:
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/usuario/projeto-gerenciamento-tarefas.git
+   git clone https://github.com/joshviniciussk8/DataSystemAPI.git
    cd projeto-gerenciamento-tarefas
 2. Configuração do Banco de dados SQL Server
    ```Create Database DataSystem;
    use DataSystem;
-   create table Tarefa (Id int not null Identity(1,1) primary key, Titulo nvarchar(100) NOT NULL, Descricao nvarchar(100) null ,DataCriacao DateTime, DataConclusao DateTime null, Status nvarchar(13));   
+   create table Tarefa (Id int not null Identity(1,1) primary key, Titulo nvarchar(100) NOT NULL, Descricao nvarchar(100) null ,DataCriacao DateTime, DataConclusao DateTime null, Status nvarchar(13));
+3. Não esqueça de configurar a string de conexão com os dados do seu database
